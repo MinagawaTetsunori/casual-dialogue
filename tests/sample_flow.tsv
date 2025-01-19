@@ -1,0 +1,6 @@
+event_id	speaker	utt	branch
+1	bot	こんにちは	0
+1	user	あいさつする	2
+1	user	無視する	3
+2	bot	ニッコリ	-1
+3	bot	ションボリ	1
