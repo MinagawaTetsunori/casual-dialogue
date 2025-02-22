@@ -8,12 +8,12 @@ def _load_dialogue_flow(file_name: str) -> dict:
     '''
     casual_dialogue指定の構造を持つtsvファイルを読み込む
     '''
-    rslt: list[list[str]] = []
+    dialogue_flow: list[list[str]] = []
     with open(file_name, encoding='utf-8', newline='') as f:
         reader = csv.reader(f, delimiter='\t')
         _ = next(reader)
-        rslt = [cols for cols in reader]
-    return rslt
+        dialogue_flow = [cols for cols in reader]
+    return dialogue_flow
 
 
 def dialogue(file_name: str):
@@ -31,13 +31,14 @@ def dialogue(file_name: str):
     BOT_SECTION = 0
     USER_SECTION = 1
 
-    di_fl: list[list[str]] = _load_dialogue_flow(file_name)
+    dialogue_flow: list[list[str]] = _load_dialogue_flow(file_name)
     running_event_id: str = '1'
 
     while True:
         print('-------------------------')
         running_event: list[list[str]] \
-            = [ls for ls in di_fl if ls[EVENT_ID] == running_event_id]
+            = [ls for ls in dialogue_flow if ls[EVENT_ID] == running_event_id]
+        
         print('bot:')
         print(running_event[BOT_SECTION][UTT])
         if running_event[BOT_SECTION][BRANCH] == '-1':
