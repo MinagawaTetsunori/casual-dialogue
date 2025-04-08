@@ -3,6 +3,16 @@ import csv
 # 略称
 # utt...utteranse(発話)
 
+# col names
+EVENT_ID = 0
+# SPEAKER = 1
+UTT = 2
+BRANCH = 3
+
+# speaker sections
+BOT_SECTION = 0
+USER_SECTION = 1
+
 
 def _load_dialogue_flow(file_name: str) -> dict:
     '''
@@ -21,15 +31,6 @@ def dialogue(file_name: str):
     1. bot文とuser選択肢を最初に出力
     2. consolから選択肢を半角数字で入力し、対応した分岐のbot文を出力
     '''
-    # col names
-    EVENT_ID = 0
-    # SPEAKER = 1
-    UTT = 2
-    BRANCH = 3
-
-    # speaker sections
-    BOT_SECTION = 0
-    USER_SECTION = 1
 
     dialogue_flow: list[list[str]] = _load_dialogue_flow(file_name)
     running_event_id: str = '1'
@@ -37,7 +38,8 @@ def dialogue(file_name: str):
     while True:
         print('-------------------------')
         running_event: list[list[str]] \
-            = [ls for ls in dialogue_flow if ls[EVENT_ID] == running_event_id]
+            = get_running_event(running_event_id, dialogue_flow)
+            # = [ls for ls in dialogue_flow if ls[EVENT_ID] == running_event_id]
         
         print('bot:')
         print(running_event[BOT_SECTION][UTT])
@@ -63,6 +65,11 @@ def dialogue(file_name: str):
         # -1のイベントで実行修了
         if running_event_id == '-1':
             break
+
+
+def get_running_event(id: str, flow: list[list[str]]) -> list:
+    return [ls for ls in flow if ls[EVENT_ID] == id]
+
 
 if __name__ == '__main__':
     print('hello')
